@@ -70,14 +70,16 @@ html {
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 2rem;
-    margin-bottom: 2rem;
-    padding: 2.5rem;
+    gap: 1.5rem;
+    margin-bottom: 1.5rem;
+    padding: 1.5rem;
     background: linear-gradient(135deg, rgba(26, 26, 46, 0.95) 0%, rgba(22, 33, 62, 0.95) 50%, rgba(15, 52, 96, 0.95) 100%);
-    border-radius: 2rem;
-    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 1.5rem;
+    border: 2px solid rgba(255, 255, 255, 0.1);
     backdrop-filter: blur(20px);
-    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+    box-shadow: 
+        0 8px 20px rgba(0, 0, 0, 0.3),
+        inset 0 1px 0 rgba(255, 255, 255, 0.1);
     position: relative;
     overflow: hidden;
 }
@@ -89,7 +91,7 @@ html {
     left: 0;
     right: 0;
     bottom: 0;
-    background: linear-gradient(45deg, transparent 30%, rgba(255, 255, 255, 0.05) 50%, transparent 70%);
+    background: linear-gradient(45deg, transparent 30%, rgba(255, 255, 255, 0.03) 50%, transparent 70%);
     animation: shimmer 3s infinite;
 }
 
@@ -99,29 +101,37 @@ html {
 }
 
 .business-logo {
-    width: 6rem;
-    height: 6rem;
+    width: 4rem;
+    height: 4rem;
     border-radius: 50%;
     object-fit: cover;
-    border: 3px solid var(--primary);
-    box-shadow: 0 8px 25px rgba(236, 153, 75, 0.4);
+    border: 2px solid var(--primary);
+    box-shadow: 
+        0 4px 12px rgba(236, 153, 75, 0.4),
+        inset 0 1px 0 rgba(255, 255, 255, 0.2);
     position: relative;
     z-index: 2;
     transition: all 0.3s ease;
+    /* Force circular shape */
+    aspect-ratio: 1;
+    min-width: 4rem;
+    min-height: 4rem;
 }
 
 .business-logo:hover {
     transform: scale(1.05);
-    box-shadow: 0 12px 35px rgba(236, 153, 75, 0.6);
+    box-shadow: 
+        0 6px 18px rgba(236, 153, 75, 0.6),
+        inset 0 1px 0 rgba(255, 255, 255, 0.3);
 }
 
 .business-name {
-    font-size: 2.4rem;
+    font-size: 1.8rem;
     color: white;
     font-weight: 600;
     margin: 0;
-    letter-spacing: 1px;
-    text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+    letter-spacing: 0.5px;
+    text-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
     position: relative;
     z-index: 2;
 }
@@ -334,11 +344,13 @@ html {
     align-items: center;
     justify-content: center;
     background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-    margin: 2rem auto 0;
-    padding: 2rem 3rem;
-    border-radius: 2rem;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
-    max-width: 40rem;
+    margin: 1.5rem auto 0;
+    padding: 1.2rem 2rem;
+    border-radius: 1.5rem;
+    box-shadow: 
+        0 6px 20px rgba(0, 0, 0, 0.2),
+        inset 0 1px 0 rgba(255, 255, 255, 0.1);
+    max-width: 35rem;
     backdrop-filter: blur(10px);
     border: 1px solid rgba(255, 255, 255, 0.1);
     z-index: 1000;
@@ -388,16 +400,19 @@ html {
   
     .slider-arrow {
     background: rgba(255, 255, 255, 0.9);
-    width: 4rem;
-    height: 4rem;
+    width: 3rem;
+    height: 3rem;
     border-radius: 50%;
     position: relative !important;
     left: auto !important;
     transform: none !important;
-    filter: drop-shadow(0px 8px 24px rgba(18, 28, 53, 0.2));
+    filter: drop-shadow(0px 4px 12px rgba(18, 28, 53, 0.2));
     transition: all 0.3s ease;
-    border: 2px solid rgba(255, 255, 255, 0.3);
+    border: 1px solid rgba(255, 255, 255, 0.3);
     z-index: 1002;
+    box-shadow: 
+        0 2px 6px rgba(0, 0, 0, 0.1),
+        inset 0 1px 0 rgba(255, 255, 255, 0.2);
   }
   
   .slider-arrow:hover {
@@ -407,7 +422,7 @@ html {
   }
   
   .slider-arrow ion-icon {
-    font-size: 2.2rem;
+    font-size: 1.6rem;
     color: #667eea;
     transition: all 0.3s ease;
   }
@@ -422,19 +437,19 @@ html {
   
   .swiper-pagination {
     position: relative;
-    width: 15rem;
+    width: 12rem;
     bottom: 0;
-    margin: 0 2rem;
+    margin: 0 1.5rem;
     z-index: 1001;
   }
   
   .swiper-pagination .swiper-pagination-bullet {
-    width: 1.2rem;
-    height: 1.2rem;
+    width: 0.8rem;
+    height: 0.8rem;
     background: rgba(255, 255, 255, 0.5);
     opacity: 1;
     transition: all 0.3s ease;
-    filter: drop-shadow(0px 4px 12px rgba(18, 28, 53, 0.2));
+    filter: drop-shadow(0px 2px 6px rgba(18, 28, 53, 0.2));
   }
   
   .swiper-pagination .swiper-pagination-bullet:hover {
@@ -448,52 +463,57 @@ html {
     box-shadow: 0 4px 15px rgba(255, 255, 255, 0.4);
   }
 
-/* Modern Search and Filter Bar */
+/* Compact Modern Search and Filter Bar */
 .search-filter-bar {
     background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
-    padding: 2rem 0;
+    padding: 1rem 0;
     position: sticky;
     top: 0;
     z-index: 1000;
-    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+    box-shadow: 
+        0 4px 16px rgba(0, 0, 0, 0.3),
+        inset 0 1px 0 rgba(255, 255, 255, 0.1);
     backdrop-filter: blur(20px);
-    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    border-bottom: 2px solid rgba(255, 255, 255, 0.1);
 }
 
 .search-filter-bar .container {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    gap: 3rem;
+    gap: 2rem;
 }
 
 .search-container {
     position: relative;
     flex: 1;
-    max-width: 50rem;
+    max-width: 40rem;
 }
 
 .search-container ion-icon {
     position: absolute;
-    left: 1.5rem;
+    left: 1rem;
     top: 50%;
     transform: translateY(-50%);
     color: rgba(255, 255, 255, 0.8);
-    font-size: 2rem;
+    font-size: 1.6rem;
     z-index: 2;
 }
 
 #search-input {
     width: 100%;
-    padding: 1.5rem 4rem 1.5rem 4.5rem;
+    padding: 1rem 3rem 1rem 3.5rem;
     border: 2px solid rgba(255, 255, 255, 0.1);
-    border-radius: 3rem;
+    border-radius: 2rem;
     background: rgba(255, 255, 255, 0.08);
-    font-size: 1.6rem;
+    font-size: 1.3rem;
     color: white;
     outline: none;
-    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    transition: all 0.3s ease;
     backdrop-filter: blur(10px);
+    box-shadow: 
+        inset 0 2px 4px rgba(0, 0, 0, 0.2),
+        0 2px 8px rgba(0, 0, 0, 0.1);
 }
 
 #search-input::placeholder {
@@ -503,22 +523,24 @@ html {
 #search-input:focus {
     background: rgba(255, 255, 255, 0.15);
     border-color: rgba(255, 255, 255, 0.3);
-    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
-    transform: translateY(-2px);
+    box-shadow: 
+        inset 0 2px 4px rgba(0, 0, 0, 0.2),
+        0 4px 16px rgba(0, 0, 0, 0.3);
+    transform: translateY(-1px);
 }
 
 .clear-search {
     position: absolute;
-    right: 1.5rem;
+    right: 1rem;
     top: 50%;
     transform: translateY(-50%);
     background: rgba(255, 255, 255, 0.1);
     border: none;
     color: rgba(255, 255, 255, 0.8);
     cursor: pointer;
-    font-size: 1.8rem;
+    font-size: 1.4rem;
     display: none;
-    padding: 0.5rem;
+    padding: 0.4rem;
     border-radius: 50%;
     transition: all 0.3s ease;
 }
@@ -531,21 +553,24 @@ html {
 .filter-container {
     display: flex;
     align-items: center;
-    gap: 1.5rem;
+    gap: 1rem;
 }
 
 #category-filter {
-    padding: 1.5rem 2rem;
+    padding: 1rem 1.5rem;
     border: 2px solid rgba(255, 255, 255, 0.1);
-    border-radius: 3rem;
+    border-radius: 2rem;
     background: rgba(255, 255, 255, 0.08);
-    font-size: 1.5rem;
+    font-size: 1.3rem;
     color: white;
     outline: none;
     cursor: pointer;
     transition: all 0.3s ease;
     backdrop-filter: blur(10px);
-    min-width: 18rem;
+    min-width: 15rem;
+    box-shadow: 
+        inset 0 2px 4px rgba(0, 0, 0, 0.2),
+        0 2px 8px rgba(0, 0, 0, 0.1);
 }
 
 #category-filter option {
@@ -562,43 +587,49 @@ html {
     background: linear-gradient(135deg, #ff6b6b 0%, #ee5a24 100%);
     border: none;
     border-radius: 50%;
-    width: 5rem;
-    height: 5rem;
+    width: 4rem;
+    height: 4rem;
     display: flex;
     align-items: center;
     justify-content: center;
     cursor: pointer;
     position: relative;
-    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-    box-shadow: 0 8px 25px rgba(255, 107, 107, 0.3);
+    transition: all 0.3s ease;
+    box-shadow: 
+        0 4px 12px rgba(255, 107, 107, 0.3),
+        inset 0 1px 0 rgba(255, 255, 255, 0.2);
 }
 
 .wishlist-btn:hover {
-    transform: translateY(-3px) scale(1.05);
-    box-shadow: 0 12px 35px rgba(255, 107, 107, 0.4);
+    transform: translateY(-2px) scale(1.05);
+    box-shadow: 
+        0 6px 20px rgba(255, 107, 107, 0.4),
+        inset 0 1px 0 rgba(255, 255, 255, 0.3);
 }
 
 .wishlist-btn ion-icon {
-    font-size: 2.4rem;
+    font-size: 2rem;
     color: white;
 }
 
 #wishlist-count {
     position: absolute;
-    top: -0.8rem;
-    right: -0.8rem;
+    top: -0.6rem;
+    right: -0.6rem;
     background: linear-gradient(135deg, #ff4757 0%, #ff3742 100%);
     color: white;
     border-radius: 50%;
-    width: 2.5rem;
-    height: 2.5rem;
+    width: 2rem;
+    height: 2rem;
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 1.2rem;
+    font-size: 1rem;
     font-weight: 700;
-    box-shadow: 0 4px 15px rgba(255, 71, 87, 0.4);
-    border: 2px solid rgba(255, 255, 255, 0.9);
+    box-shadow: 
+        0 2px 8px rgba(255, 71, 87, 0.4),
+        inset 0 1px 0 rgba(255, 255, 255, 0.2);
+    border: 1px solid rgba(255, 255, 255, 0.9);
 }
 
 /* Loading and Error States */
@@ -896,19 +927,21 @@ html {
     transform: translateY(-2px);
 }
 
-/* Modern Wishlist Sidebar */
+/* Compact Modern Wishlist Sidebar */
 .wishlist-sidebar {
     position: fixed;
     top: 0;
-    right: -45rem;
-    width: 45rem;
+    right: -40rem;
+    width: 40rem;
     height: 100vh;
     background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
-    box-shadow: -10px 0 40px rgba(0, 0, 0, 0.4);
+    box-shadow: 
+        -8px 0 25px rgba(0, 0, 0, 0.4),
+        inset 1px 0 0 rgba(255, 255, 255, 0.1);
     z-index: 1500;
-    transition: right 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    transition: right 0.3s ease;
     overflow-y: auto;
-    border-left: 1px solid rgba(255, 255, 255, 0.1);
+    border-left: 2px solid rgba(255, 255, 255, 0.1);
     backdrop-filter: blur(20px);
 }
 
@@ -920,11 +953,14 @@ html {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 2.5rem 3rem;
+    padding: 1.5rem 2rem;
     background: linear-gradient(135deg, #ff6b6b 0%, #ee5a24 100%);
     color: white;
     position: relative;
     overflow: hidden;
+    box-shadow: 
+        0 2px 8px rgba(0, 0, 0, 0.2),
+        inset 0 1px 0 rgba(255, 255, 255, 0.1);
 }
 
 .wishlist-header::before {
@@ -934,15 +970,15 @@ html {
     left: 0;
     right: 0;
     bottom: 0;
-    background: linear-gradient(45deg, transparent 30%, rgba(255, 255, 255, 0.1) 50%, transparent 70%);
+    background: linear-gradient(45deg, transparent 30%, rgba(255, 255, 255, 0.05) 50%, transparent 70%);
     animation: shimmer 3s infinite;
 }
 
 .wishlist-header h3 {
-    font-size: 2.4rem;
+    font-size: 1.8rem;
     margin: 0;
     font-weight: 600;
-    letter-spacing: 1px;
+    letter-spacing: 0.5px;
     position: relative;
     z-index: 2;
 }
@@ -951,13 +987,16 @@ html {
     background: rgba(255, 255, 255, 0.1);
     border: none;
     color: white;
-    font-size: 2.2rem;
+    font-size: 1.8rem;
     cursor: pointer;
-    padding: 0.8rem;
+    padding: 0.6rem;
     border-radius: 50%;
     transition: all 0.3s ease;
     position: relative;
     z-index: 2;
+    box-shadow: 
+        0 2px 6px rgba(0, 0, 0, 0.2),
+        inset 0 1px 0 rgba(255, 255, 255, 0.1);
 }
 
 .close-wishlist:hover {
@@ -966,30 +1005,32 @@ html {
 }
 
 .wishlist-items {
-    padding: 3rem;
+    padding: 2rem;
 }
 
 .wishlist-actions {
-    padding: 0 3rem 3rem;
+    padding: 0 2rem 2rem;
     border-top: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 .whatsapp-share-btn {
     width: 100%;
-    padding: 1.5rem 2rem;
+    padding: 1.2rem 1.5rem;
     background: linear-gradient(135deg, #25d366 0%, #128c7e 100%);
     color: white;
     border: none;
-    border-radius: 1.5rem;
-    font-size: 1.6rem;
+    border-radius: 1.2rem;
+    font-size: 1.3rem;
     font-weight: 600;
     cursor: pointer;
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 1rem;
-    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-    box-shadow: 0 8px 25px rgba(37, 211, 102, 0.3);
+    gap: 0.8rem;
+    transition: all 0.3s ease;
+    box-shadow: 
+        0 4px 12px rgba(37, 211, 102, 0.3),
+        inset 0 1px 0 rgba(255, 255, 255, 0.1);
     position: relative;
     overflow: hidden;
 }
@@ -1001,8 +1042,8 @@ html {
     left: -100%;
     width: 100%;
     height: 100%;
-    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
-    transition: left 0.5s;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.15), transparent);
+    transition: left 0.4s;
 }
 
 .whatsapp-share-btn:hover::before {
@@ -1011,36 +1052,46 @@ html {
 
 .whatsapp-share-btn:hover {
     background: linear-gradient(135deg, #128c7e 0%, #075e54 100%);
-    transform: translateY(-3px);
-    box-shadow: 0 12px 35px rgba(37, 211, 102, 0.4);
+    transform: translateY(-2px);
+    box-shadow: 
+        0 6px 18px rgba(37, 211, 102, 0.4),
+        inset 0 1px 0 rgba(255, 255, 255, 0.2);
 }
 
 .wishlist-item {
     display: flex;
-    gap: 1.5rem;
-    padding: 1.5rem;
+    gap: 1rem;
+    padding: 1rem;
     border: 1px solid rgba(255, 255, 255, 0.1);
-    border-radius: 1.5rem;
-    margin-bottom: 1.5rem;
-    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    border-radius: 1rem;
+    margin-bottom: 1rem;
+    transition: all 0.3s ease;
     background: rgba(255, 255, 255, 0.05);
     backdrop-filter: blur(10px);
+    box-shadow: 
+        0 2px 8px rgba(0, 0, 0, 0.2),
+        inset 0 1px 0 rgba(255, 255, 255, 0.05);
 }
 
 .wishlist-item:hover {
-    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
-    transform: translateY(-2px);
+    box-shadow: 
+        0 4px 16px rgba(0, 0, 0, 0.3),
+        inset 0 1px 0 rgba(255, 255, 255, 0.1);
+    transform: translateY(-1px);
     border-color: rgba(255, 255, 255, 0.2);
     background: rgba(255, 255, 255, 0.08);
 }
 
 .wishlist-item img {
-    width: 7rem;
-    height: 7rem;
-    border-radius: 1rem;
+    width: 5rem;
+    height: 5rem;
+    border-radius: 0.8rem;
     object-fit: cover;
-    border: 2px solid rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.1);
     transition: all 0.3s ease;
+    box-shadow: 
+        0 2px 6px rgba(0, 0, 0, 0.2),
+        inset 0 1px 0 rgba(255, 255, 255, 0.1);
 }
 
 .wishlist-item:hover img {
@@ -1056,15 +1107,15 @@ html {
 }
 
 .wishlist-item-info h4 {
-    font-size: 1.6rem;
-    margin: 0 0 0.8rem 0;
+    font-size: 1.3rem;
+    margin: 0 0 0.5rem 0;
     color: white;
     font-weight: 600;
-    letter-spacing: 0.5px;
+    letter-spacing: 0.3px;
 }
 
 .wishlist-item-info p {
-    font-size: 1.4rem;
+    font-size: 1.1rem;
     color: var(--primary);
     margin: 0;
     font-weight: 500;
@@ -1075,18 +1126,22 @@ html {
     color: white;
     border: none;
     border-radius: 50%;
-    width: 3rem;
-    height: 3rem;
+    width: 2.5rem;
+    height: 2.5rem;
     cursor: pointer;
-    font-size: 1.4rem;
+    font-size: 1.2rem;
     transition: all 0.3s ease;
-    box-shadow: 0 4px 15px rgba(255, 71, 87, 0.3);
+    box-shadow: 
+        0 2px 8px rgba(255, 71, 87, 0.3),
+        inset 0 1px 0 rgba(255, 255, 255, 0.1);
     align-self: center;
 }
 
 .remove-wishlist:hover {
     transform: scale(1.1);
-    box-shadow: 0 6px 20px rgba(255, 71, 87, 0.4);
+    box-shadow: 
+        0 4px 12px rgba(255, 71, 87, 0.4),
+        inset 0 1px 0 rgba(255, 255, 255, 0.2);
 }
 
 .wishlist-empty {
@@ -1118,12 +1173,28 @@ html {
     line-height: 1.5;
 }
 
-/* Contact Footer */
+/* Compact Modern Contact Footer */
 .contact-footer {
-    background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
+    background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
     color: white;
-    padding: 3rem 0;
+    padding: 2.5rem 0;
     margin-top: 4rem;
+    position: relative;
+    overflow: hidden;
+    box-shadow: 
+        0 -4px 16px rgba(0, 0, 0, 0.3),
+        inset 0 1px 0 rgba(255, 255, 255, 0.05);
+}
+
+.contact-footer::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(45deg, transparent 30%, rgba(255, 255, 255, 0.02) 50%, transparent 70%);
+    animation: shimmer 4s infinite;
 }
 
 .footer-content {
@@ -1131,18 +1202,31 @@ html {
     justify-content: space-between;
     align-items: center;
     gap: 2rem;
+    position: relative;
+    z-index: 2;
 }
 
 .business-contact h4 {
     font-size: 2rem;
     margin: 0 0 1rem 0;
     color: var(--primary);
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    text-shadow: 0 2px 8px rgba(236, 153, 75, 0.3);
 }
 
 .business-contact p {
-    font-size: 1.4rem;
-    margin: 0.5rem 0;
-    color: rgba(255, 255, 255, 0.8);
+    font-size: 1.3rem;
+    margin: 0.8rem 0;
+    color: rgba(255, 255, 255, 0.9);
+    font-weight: 400;
+    letter-spacing: 0.3px;
+    transition: all 0.3s ease;
+}
+
+.business-contact p:hover {
+    color: white;
+    transform: translateX(3px);
 }
 
 .footer-actions {
@@ -1151,36 +1235,69 @@ html {
 }
 
 .footer-actions button {
-    padding: 1rem 2rem;
+    padding: 1rem 1.8rem;
     border: none;
-    border-radius: 1rem;
-    font-size: 1.4rem;
-    font-weight: 500;
+    border-radius: 1.2rem;
+    font-size: 1.3rem;
+    font-weight: 600;
     cursor: pointer;
     display: flex;
     align-items: center;
-    gap: 0.5rem;
+    gap: 0.8rem;
     transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+    letter-spacing: 0.3px;
+    box-shadow: 
+        0 2px 8px rgba(0, 0, 0, 0.2),
+        inset 0 1px 0 rgba(255, 255, 255, 0.1);
+}
+
+.footer-actions button::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.15), transparent);
+    transition: left 0.4s;
+}
+
+.footer-actions button:hover::before {
+    left: 100%;
 }
 
 .contact-btn-footer {
-    background: var(--primary);
+    background: linear-gradient(135deg, var(--primary) 0%, #d68910 100%);
     color: white;
+    box-shadow: 
+        0 4px 12px rgba(236, 153, 75, 0.3),
+        inset 0 1px 0 rgba(255, 255, 255, 0.1);
 }
 
 .contact-btn-footer:hover {
-    background: #d68910;
+    background: linear-gradient(135deg, #d68910 0%, #b8860b 100%);
     transform: translateY(-2px);
+    box-shadow: 
+        0 6px 18px rgba(236, 153, 75, 0.4),
+        inset 0 1px 0 rgba(255, 255, 255, 0.2);
 }
 
 .share-btn-footer {
-    background: #3498db;
+    background: linear-gradient(135deg, #3498db 0%, #2980b9 100%);
     color: white;
+    box-shadow: 
+        0 4px 12px rgba(52, 152, 219, 0.3),
+        inset 0 1px 0 rgba(255, 255, 255, 0.1);
 }
 
 .share-btn-footer:hover {
-    background: #2980b9;
+    background: linear-gradient(135deg, #2980b9 0%, #1f5f8b 100%);
     transform: translateY(-2px);
+    box-shadow: 
+        0 6px 18px rgba(52, 152, 219, 0.4),
+        inset 0 1px 0 rgba(255, 255, 255, 0.2);
 }
 
 /* Loading Overlay */

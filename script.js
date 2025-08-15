@@ -42,7 +42,15 @@ async function fetchBusinessDetails(businessId) {
         const data = await response.json();
         
         if (data.status) {
-            return data.data;
+            const business = data.data;
+            
+            // Check if business is active
+            if (!business.is_active) {
+                console.error('Business is not active:', business.business_name);
+                return { ...business, is_active: false }; // Return business data but mark as inactive
+            }
+            
+            return business;
         } else {
             throw new Error('Failed to fetch business details');
         }
@@ -53,13 +61,21 @@ async function fetchBusinessDetails(businessId) {
 }
 
 // Fetch product details
-async function fetchProductDetails(productId) {
+async function fetchProductDetails(productId, expectedBusinessId) {
     try {
         const response = await fetch(`${BASE_URL}/public/api/products/${productId}`);
         const data = await response.json();
         
         if (data.status) {
-            return data.data;
+            const product = data.data;
+            
+            // Verify product belongs to the correct business
+            if (product.business_id != expectedBusinessId) {
+                console.warn(`Product ${productId} does not belong to business ${expectedBusinessId}`);
+                return null;
+            }
+            
+            return product;
         } else {
             throw new Error(`Failed to fetch product ${productId}`);
         }
@@ -161,32 +177,32 @@ function createProductSlides(product) {
 // Initialize slider
 function initializeSlider() {
     TrendingSlider = new Swiper('.trending-slider', {
-        effect: 'coverflow',
-        grabCursor: true,
-        centeredSlides: true,
-        loop: true,
-        slidesPerView: 'auto',
+    effect: 'coverflow',
+    grabCursor: true,
+    centeredSlides: true,
+    loop: true,
+    slidesPerView: 'auto',
         speed: 3000,
         autoplay: {
             delay: 3000,
             disableOnInteraction: false,
             pauseOnMouseEnter: false,
         },
-        coverflowEffect: {
-            rotate: 0,
-            stretch: 0,
+    coverflowEffect: {
+      rotate: 0,
+      stretch: 0,
             depth: 250,
-            modifier: 2.5,
-        },
-        pagination: {
-            el: '.swiper-pagination',
-            clickable: true,
-        },
-        navigation: {
-            nextEl: '.swiper-button-next',
-            prevEl: '.swiper-button-prev',
-        }
-    });
+      modifier: 2.5,
+    },
+    pagination: {
+      el: '.swiper-pagination',
+      clickable: true,
+    },
+    navigation: {
+      nextEl: '.swiper-button-next',
+      prevEl: '.swiper-button-prev',
+    }
+  });
 }
 
 // Search and filter functionality
@@ -562,17 +578,30 @@ async function initializeGallery() {
 
         // Fetch business details
         const business = await fetchBusinessDetails(params.businessId);
-        if (business) {
-            updateBusinessInfo(business);
+        if (!business) {
+            showError('Business not found. Please check the business ID.');
+            hideLoading();
+            return;
         }
+        
+        // Check if business is active
+        if (!business.is_active) {
+            showError(`Business "${business.business_name}" is currently inactive. Please contact the business owner.`);
+            hideLoading();
+            return;
+        }
+        
+        // Update business info
+        updateBusinessInfo(business);
 
         // Fetch all products
-        const productPromises = params.productIds.map(id => fetchProductDetails(id));
+        const productPromises = params.productIds.map(id => fetchProductDetails(id, params.businessId));
         const products = await Promise.all(productPromises);
         const validProducts = products.filter(product => product !== null);
 
         if (validProducts.length === 0) {
-            showError('No products found. Please check the product IDs.');
+            showError('No valid products found. Please check the product IDs and business verification.');
+            hideLoading();
             return;
         }
 
