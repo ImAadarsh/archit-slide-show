@@ -3,222 +3,170 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Shoe CASE</title>
+    <title>Art Gallery Slider</title>
     <link rel="stylesheet" href="https://unpkg.com/swiper@8/swiper-bundle.min.css" />
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
+<!-- Search and Filter Bar -->
+<div class="search-filter-bar">
+    <div class="container">
+        <div class="search-container">
+            <ion-icon name="search-outline"></ion-icon>
+            <input type="text" id="search-input" placeholder="Search products...">
+            <button id="clear-search" class="clear-search">
+                <ion-icon name="close-outline"></ion-icon>
+            </button>
+        </div>
+        <div class="filter-container">
+            <select id="category-filter">
+                <option value="">All Categories</option>
+            </select>
+            <button id="wishlist-toggle" class="wishlist-btn">
+                <ion-icon name="heart-outline"></ion-icon>
+                <span id="wishlist-count">0</span>
+            </button>
+        </div>
+    </div>
+</div>
+
 <section id="trending">
     <div class="container">
-        <h3 class="text-center section-subheading">--Best Shoes--</h3>
-        <h4 class="text-center section-subheading"> Mde by Shubham Mehta</h4>
-        <h1 class="text-center section-heading">Trending Shoes</h1>
+        <div id="business-info" class="business-header">
+            <img id="business-logo" src="" alt="Business Logo" class="business-logo">
+            <h3 id="business-name" class="business-name">Loading...</h3>
+        </div>
+        <h1 class="text-center section-heading">Art Gallery Collection</h1>
     </div>
     <div class="container">
         <div class="swiper trending-slider">
-            <div class="swiper-wrapper">
-                <!-- SLide start -->
-                <div class="swiper-slide trending-slide">
-                    <div class="trending-slide-img">
-                        <div class="image-overlay"></div>
-                        <img src="images/image1.jpg" alt="">
-                    </div>
-                    <div class="trending-slide-content">
-                        <h1 class="shoe-price">$125</h1>
-                        <div class="trending-slide-content-bottom">
-                            <h2 class="shoe-name">
-                                Nike Jordans
-                            </h2>
-                            <h3 class="shoe-rating">
-                                <span>4.5</span>
-                                <ion-icon name="star"></ion-icon>
-                                <ion-icon name="star"></ion-icon>
-                                <ion-icon name="star"></ion-icon>
-                                <ion-icon name="star"></ion-icon>
-                                <ion-icon name="star-half"></ion-icon>
-                            </h3>
-                        </div>
-                    </div>
+            <div class="swiper-wrapper" id="products-container">
+                <!-- Products will be loaded dynamically -->
+                <div class="loading-spinner">
+                    <div class="spinner"></div>
+                    <p>Loading products...</p>
                 </div>
-                <!-- SLide end -->
-                <!-- SLide start -->
-                <div class="swiper-slide trending-slide">
-                    <div class="trending-slide-img">
-                        <div class="image-overlay"></div>
-                        <img src="images/image2.jpg" alt="">
-                    </div>
-                    <div class="trending-slide-content">
-                        <h1 class="shoe-price">$125</h1>
-                        <div class="trending-slide-content-bottom">
-                            <h2 class="shoe-name">
-                                Nike Jordans 2
-                            </h2>
-                            <h3 class="shoe-rating">
-                                <span>4</span>
-                                <ion-icon name="star"></ion-icon>
-                                <ion-icon name="star"></ion-icon>
-                                <ion-icon name="star"></ion-icon>
-                                <ion-icon name="star"></ion-icon>
-                            </h3>
-                        </div>
-                    </div>
-                </div>
-                <!-- SLide end -->
-                <!-- SLide start -->
-                <div class="swiper-slide trending-slide">
-                    <div class="trending-slide-img">
-                        <div class="image-overlay"></div>
-                        <img src="images/image3.jpg" alt="">
-                    </div>
-                    <div class="trending-slide-content">
-                        <h1 class="shoe-price">$125</h1>
-                        <div class="trending-slide-content-bottom">
-                            <h2 class="shoe-name">
-                                Nike Air Max
-                            </h2>
-                            <h3 class="shoe-rating">
-                                <span>4.5</span>
-                                <ion-icon name="star"></ion-icon>
-                                <ion-icon name="star"></ion-icon>
-                                <ion-icon name="star"></ion-icon>
-                                <ion-icon name="star"></ion-icon>
-                                <ion-icon name="star-half"></ion-icon>
-                            </h3>
-                        </div>
-                    </div>
-                </div>
-                <!-- SLide end -->
-                <!-- SLide start -->
-                <div class="swiper-slide trending-slide">
-                    <div class="trending-slide-img">
-                        <div class="image-overlay"></div>
-                        <img src="images/image4.jpg" alt="">
-                    </div>
-                    <div class="trending-slide-content">
-                        <h1 class="shoe-price">$125</h1>
-                        <div class="trending-slide-content-bottom">
-                            <h2 class="shoe-name">
-                                Nike Sports
-                            </h2>
-                            <h3 class="shoe-rating">
-                                <span>3.5</span>
-                                <ion-icon name="star"></ion-icon>
-                                <ion-icon name="star"></ion-icon>
-                                <ion-icon name="star"></ion-icon>
-                                <ion-icon name="star-half"></ion-icon>
-                            </h3>
-                        </div>
-                    </div>
-                </div>
-                <!-- SLide end -->
-                <!-- SLide start -->
-                <div class="swiper-slide trending-slide">
-                    <div class="trending-slide-img">
-                        <div class="image-overlay"></div>
-                        <img src="images/image5.jpg" alt="">
-                    </div>
-                    <div class="trending-slide-content">
-                        <h1 class="shoe-price">$125</h1>
-                        <div class="trending-slide-content-bottom">
-                            <h2 class="shoe-name">
-                                Adidas 
-                            </h2>
-                            <h3 class="shoe-rating">
-                                <span>4.5</span>
-                                <ion-icon name="star"></ion-icon>
-                                <ion-icon name="star"></ion-icon>
-                                <ion-icon name="star"></ion-icon>
-                                <ion-icon name="star"></ion-icon>
-                                <ion-icon name="star-half"></ion-icon>
-                            </h3>
-                        </div>
-                    </div>
-                </div>
-                <!-- SLide end -->
-                <!-- SLide start -->
-                <div class="swiper-slide trending-slide">
-                    <div class="trending-slide-img">
-                        <div class="image-overlay"></div>
-                        <img src="images/image6.jpg" alt="">
-                    </div>
-                    <div class="trending-slide-content">
-                        <h1 class="shoe-price">$125</h1>
-                        <div class="trending-slide-content-bottom">
-                            <h2 class="shoe-name">
-                                Adidas Runners
-                            </h2>
-                            <h3 class="shoe-rating">
-                                <span>3.5</span>
-                                <ion-icon name="star"></ion-icon>
-                                <ion-icon name="star"></ion-icon>
-                                <ion-icon name="star"></ion-icon>
-                                <ion-icon name="star-half"></ion-icon>
-                            </h3>
-                        </div>
-                    </div>
-                </div>
-                <!-- SLide end -->
-                <!-- SLide start -->
-                <div class="swiper-slide trending-slide">
-                    <div class="trending-slide-img">
-                        <div class="image-overlay"></div>
-                        <img src="images/image7.jpg" alt="">
-                    </div>
-                    <div class="trending-slide-content">
-                        <h1 class="shoe-price">$125</h1>
-                        <div class="trending-slide-content-bottom">
-                            <h2 class="shoe-name">
-                                Adidas Sneakers
-                            </h2>
-                            <h3 class="shoe-rating">
-                                <span>3</span>
-                                <ion-icon name="star"></ion-icon>
-                                <ion-icon name="star"></ion-icon>
-                                <ion-icon name="star"></ion-icon>
-                            </h3>
-                        </div>
-                    </div>
-                </div>
-                <!-- SLide end -->
-                <!-- SLide start -->
-                <div class="swiper-slide trending-slide">
-                    <div class="trending-slide-img">
-                        <div class="image-overlay"></div>
-                        <img src="images/image8.jpg" alt="">
-                    </div>
-                    <div class="trending-slide-content">
-                        <h1 class="shoe-price">$125</h1>
-                        <div class="trending-slide-content-bottom">
-                            <h2 class="shoe-name">
-                                Adidas 2
-                            </h2>
-                            <h3 class="shoe-rating">
-                                <span>2.5</span>
-                                <ion-icon name="star"></ion-icon>
-                                <ion-icon name="star"></ion-icon>
-                                <ion-icon name="star-half"></ion-icon>
-                            </h3>
-                        </div>
-                    </div>
-                </div>
-                <!-- SLide end -->
             </div>
 
             <div class="trending-slider-control">
-                
-                    <div class="swiper-button-prev slider-arrow">
-                        <ion-icon name="arrow-back-outline"></ion-icon>
-                    </div>
-                    <div class="swiper-button-next slider-arrow">
-                        <ion-icon name="arrow-forward-outline"></ion-icon>
-                    </div>
-                
+                <div class="swiper-button-prev slider-arrow">
+                    <ion-icon name="arrow-back-outline"></ion-icon>
+                </div>
+                <div class="swiper-button-next slider-arrow">
+                    <ion-icon name="arrow-forward-outline"></ion-icon>
+                </div>
                 <div class="swiper-pagination"></div>
             </div>
         </div>
     </div>
 </section>
 
+<!-- Product Quick View Modal -->
+<div id="product-modal" class="modal">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h2 id="modal-product-name">Product Name</h2>
+            <button class="close-modal">
+                <ion-icon name="close-outline"></ion-icon>
+            </button>
+        </div>
+        <div class="modal-body">
+            <div class="modal-gallery">
+                <div class="main-image-container">
+                    <img id="modal-main-image" src="" alt="Product Image">
+                    <div class="image-zoom-overlay"></div>
+                </div>
+                <div class="thumbnail-gallery" id="thumbnail-gallery">
+                    <!-- Thumbnails will be loaded here -->
+                </div>
+            </div>
+            <div class="modal-details">
+                <div class="product-info">
+                    <h3 id="modal-artist">Artist: Loading...</h3>
+                    <h4 id="modal-size">Size: Loading...</h4>
+                    <h5 id="modal-category">Category: Loading...</h5>
+                    <p id="modal-description">Product description will appear here...</p>
+                </div>
+                <div class="product-actions">
+                    <div class="price-section">
+                        <h2 id="modal-price">₹0</h2>
+                        <span id="modal-gst-info">Including GST</span>
+                    </div>
+                    <div class="action-buttons">
+                        <button class="wishlist-btn-modal" id="modal-wishlist-btn">
+                            <ion-icon name="heart-outline"></ion-icon>
+                            Add to Wishlist
+                        </button>
+                        <button class="share-btn" id="modal-share-btn">
+                            <ion-icon name="share-outline"></ion-icon>
+                            Share
+                        </button>
+                        <button class="contact-btn" id="modal-contact-btn">
+                            <ion-icon name="call-outline"></ion-icon>
+                            Contact
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Wishlist Sidebar -->
+<div id="wishlist-sidebar" class="wishlist-sidebar">
+    <div class="wishlist-header">
+        <h3>Wishlist</h3>
+        <button class="close-wishlist">
+            <ion-icon name="close-outline"></ion-icon>
+        </button>
+    </div>
+    <div class="wishlist-items" id="wishlist-items">
+        <!-- Wishlist items will be loaded here -->
+    </div>
+    <div class="wishlist-actions" id="wishlist-actions" style="display: none;">
+        <button class="whatsapp-share-btn" id="whatsapp-share-btn">
+            <ion-icon name="logo-whatsapp"></ion-icon>
+            Share on WhatsApp
+        </button>
+    </div>
+    <div class="wishlist-empty" id="wishlist-empty">
+        <ion-icon name="heart-outline"></ion-icon>
+        <p>Your wishlist is empty</p>
+        <span>Add products to your wishlist to see them here</span>
+    </div>
+</div>
+
+<!-- Contact Information Footer -->
+<footer class="contact-footer">
+    <div class="container">
+        <div class="footer-content">
+            <div class="business-contact">
+                <h4 id="footer-business-name">Business Name</h4>
+                <p id="footer-phone">Phone: Loading...</p>
+                <p id="footer-email">Email: Loading...</p>
+                <p id="footer-gst">GST: Loading...</p>
+            </div>
+            <div class="footer-actions">
+                <button class="contact-btn-footer" id="footer-contact-btn">
+                    <ion-icon name="call-outline"></ion-icon>
+                    Contact Us
+                </button>
+                <button class="share-btn-footer" id="footer-share-btn">
+                    <ion-icon name="share-outline"></ion-icon>
+                    Share Gallery
+                </button>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- Loading Overlay -->
+<div id="loading-overlay" class="loading-overlay">
+    <div class="loading-content">
+        <div class="spinner"></div>
+        <p>Loading...</p>
+    </div>
+</div>
 
 <script
   type="module"
