@@ -85,6 +85,10 @@ async function fetchProductDetails(productId, expectedBusinessId) {
     }
 }
 
+// current-year
+const currentYear = new Date().getFullYear();
+document.getElementById('current-year').textContent = currentYear;
+
 // Update business information
 function updateBusinessInfo(business) {
     console.log('Updating business info:', business);
@@ -464,9 +468,28 @@ function shareProduct(productId) {
     const product = allProducts.find(p => p.id === productId);
     if (!product) return;
     
+    const businessName = currentBusiness?.business_name || 'Art Gallery';
+    let shareText = `Check out this amazing artwork from ${businessName}:\n\n`;
+    shareText += `Product: ${product.name}\n`;
+    shareText += `Product ID: ${product.id}\n`;
+    shareText += `Artist: ${product.artist_name}\n`;
+    shareText += `Size: ${product.width} × ${product.height}\n`;
+    shareText += `Price: ₹${product.price}\n`;
+    
+    // Add image links if available
+    if (product.images && product.images.length > 0) {
+        shareText += `Images:\n`;
+        product.images.forEach((image, index) => {
+            const imageUrl = IMAGE_BASE_URL + image.image;
+            shareText += `${index + 1}. ${imageUrl}\n`;
+        });
+    }
+    
+    shareText += `\nGallery URL: ${window.location.href}`;
+    
     const shareData = {
         title: product.name,
-        text: `Check out this amazing artwork: ${product.name} by ${product.artist_name}`,
+        text: shareText,
         url: window.location.href
     };
     
@@ -474,9 +497,8 @@ function shareProduct(productId) {
         navigator.share(shareData);
     } else {
         // Fallback: copy to clipboard
-        const textToCopy = `${shareData.title}\n${shareData.text}\n${shareData.url}`;
-        navigator.clipboard.writeText(textToCopy).then(() => {
-            alert('Product link copied to clipboard!');
+        navigator.clipboard.writeText(shareText).then(() => {
+            alert('Product details copied to clipboard!');
         });
     }
 }
@@ -509,16 +531,42 @@ function shareWishlistOnWhatsApp() {
         return;
     }
     
-    // Format phone number (remove spaces, dashes, etc.)
-    const phoneNumber = currentBusiness.phone.replace(/[\s\-\(\)]/g, '');
+    // Format phone number (remove spaces, dashes, etc.) and add country code if missing
+    let phoneNumber = currentBusiness.phone.replace(/[\s\-\(\)]/g, '');
+    
+    // Add +91 country code if not present
+    if (!phoneNumber.startsWith('+91') && !phoneNumber.startsWith('91')) {
+        phoneNumber = '+91' + phoneNumber;
+    } else if (phoneNumber.startsWith('91') && !phoneNumber.startsWith('+91')) {
+        phoneNumber = '+' + phoneNumber;
+    }
     
     // Create wishlist message
     const businessName = currentBusiness.business_name || 'Art Gallery';
     let message = `Hello! I'm interested in the following products from ${businessName}:\n\n`;
     
     wishlist.forEach((item, index) => {
-        message += `${index + 1}. ${item.name} by ${item.artist}\n`;
-        message += `   Price: ₹${item.price}\n\n`;
+        const product = allProducts.find(p => p.id === item.productId);
+        if (product) {
+            message += `${index + 1}. ${item.name}\n`;
+            message += `   Product ID: ${item.productId}\n`;
+            message += `   Artist: ${product.artist_name}\n`;
+            message += `   Size: ${product.width} × ${product.height}\n`;
+            message += `   Price: ₹${item.price}\n`;
+            
+            // Add image links if available
+            if (product.images && product.images.length > 0) {
+                message += `   Images:\n`;
+                product.images.forEach((image, imgIndex) => {
+                    const imageUrl = IMAGE_BASE_URL + image.image;
+                    message += `   ${imgIndex + 1}. ${imageUrl}\n`;
+                });
+            }
+            message += `\n`;
+        } else {
+            message += `${index + 1}. ${item.name} by ${item.artist}\n`;
+            message += `   Price: ₹${item.price}\n\n`;
+        }
     });
     
     message += `Please contact me for more details about these products.`;
@@ -536,7 +584,17 @@ function shareWishlistOnWhatsApp() {
 // Contact functionality
 function contactBusiness() {
     if (currentBusiness?.phone) {
-        window.open(`tel:${currentBusiness.phone}`);
+        // Format phone number for tel: link
+        let phoneNumber = currentBusiness.phone.replace(/[\s\-\(\)]/g, '');
+        
+        // Add +91 country code if not present
+        if (!phoneNumber.startsWith('+91') && !phoneNumber.startsWith('91')) {
+            phoneNumber = '+91' + phoneNumber;
+        } else if (phoneNumber.startsWith('91') && !phoneNumber.startsWith('+91')) {
+            phoneNumber = '+' + phoneNumber;
+        }
+        
+        window.open(`tel:${phoneNumber}`);
     } else if (currentBusiness?.email) {
         window.open(`mailto:${currentBusiness.email}`);
     } else {
@@ -666,6 +724,12 @@ function setupEventListeners() {
     document.getElementById('modal-contact-btn').addEventListener('click', contactBusiness);
     
     // Footer buttons
+    // Set current year in footer
+    document.getElementById('current-year').textContent = new Date().getFullYear();
+    
+    // Event listeners for header and footer buttons
+    document.getElementById('header-contact-btn').addEventListener('click', contactBusiness);
+    document.getElementById('header-share-btn').addEventListener('click', shareGallery);
     document.getElementById('footer-contact-btn').addEventListener('click', contactBusiness);
     document.getElementById('footer-share-btn').addEventListener('click', shareGallery);
     

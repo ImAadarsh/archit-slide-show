@@ -8,34 +8,54 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-<!-- Search and Filter Bar -->
-<div class="search-filter-bar">
-    <div class="container">
-        <div class="search-container">
-            <ion-icon name="search-outline"></ion-icon>
-            <input type="text" id="search-input" placeholder="Search products...">
-            <button id="clear-search" class="clear-search">
-                <ion-icon name="close-outline"></ion-icon>
-            </button>
+<!-- Ultra Modern Header -->
+<header class="modern-header">
+    <div class="header-content">
+        <div class="header-main">
+            <div class="business-info">
+                <div class="business-logo-container">
+                    <img id="business-logo" src="" alt="Business Logo" class="business-logo">
+                </div>
+                <div class="business-details">
+                    <h2 id="business-name" class="business-name">Loading...</h2>
+                    <p class="business-tagline">Premium Art Collection</p>
+                </div>
+            </div>
+            <div class="header-actions">
+                <button class="header-btn" id="header-contact-btn">
+                    <ion-icon name="call-outline"></ion-icon>
+                    Contact
+                </button>
+                <button class="header-btn" id="header-share-btn">
+                    <ion-icon name="share-outline"></ion-icon>
+                    Share
+                </button>
+            </div>
         </div>
-        <div class="filter-container">
-            <select id="category-filter">
-                <option value="">All Categories</option>
-            </select>
-            <button id="wishlist-toggle" class="wishlist-btn">
-                <ion-icon name="heart-outline"></ion-icon>
-                <span id="wishlist-count">0</span>
-            </button>
+        
+        <div class="search-filter-section">
+            <div class="search-container">
+                <ion-icon name="search-outline"></ion-icon>
+                <input type="text" id="search-input" placeholder="Search products...">
+                <button id="clear-search" class="clear-search">
+                    <ion-icon name="close-outline"></ion-icon>
+                </button>
+            </div>
+            <div class="filter-container">
+                <select id="category-filter">
+                    <option value="">All Categories</option>
+                </select>
+                <button id="wishlist-toggle" class="wishlist-btn">
+                    <ion-icon name="heart-outline"></ion-icon>
+                    <span id="wishlist-count">0</span>
+                </button>
+            </div>
         </div>
     </div>
-</div>
+</header>
 
 <section id="trending">
     <div class="container">
-        <div id="business-info" class="business-header">
-            <img id="business-logo" src="" alt="Business Logo" class="business-logo">
-            <h3 id="business-name" class="business-name">Loading...</h3>
-        </div>
         <h1 class="text-center section-heading">Art Gallery Collection</h1>
     </div>
     <div class="container">
@@ -46,16 +66,6 @@
                     <div class="spinner"></div>
                     <p>Loading products...</p>
                 </div>
-            </div>
-
-            <div class="trending-slider-control">
-                <div class="swiper-button-prev slider-arrow">
-                    <ion-icon name="arrow-back-outline"></ion-icon>
-                </div>
-                <div class="swiper-button-next slider-arrow">
-                    <ion-icon name="arrow-forward-outline"></ion-icon>
-                </div>
-                <div class="swiper-pagination"></div>
             </div>
         </div>
     </div>
@@ -136,27 +146,41 @@
     </div>
 </div>
 
-<!-- Contact Information Footer -->
+<!-- Ultra Modern Contact Footer -->
 <footer class="contact-footer">
-    <div class="container">
-        <div class="footer-content">
-            <div class="business-contact">
-                <h4 id="footer-business-name">Business Name</h4>
-                <p id="footer-phone">Phone: Loading...</p>
-                <p id="footer-email">Email: Loading...</p>
-                <p id="footer-gst">GST: Loading...</p>
+    <div class="footer-content">
+        <div class="business-contact">
+            <div class="contact-item">
+                <ion-icon name="business-outline"></ion-icon>
+                <span class="contact-text" id="footer-business-name">Business Name</span>
             </div>
-            <div class="footer-actions">
-                <button class="contact-btn-footer" id="footer-contact-btn">
-                    <ion-icon name="call-outline"></ion-icon>
-                    Contact Us
-                </button>
-                <button class="share-btn-footer" id="footer-share-btn">
-                    <ion-icon name="share-outline"></ion-icon>
-                    Share Gallery
-                </button>
+            <div class="contact-item">
+                <ion-icon name="call-outline"></ion-icon>
+                <span class="contact-text" id="footer-phone">Phone: Loading...</span>
+            </div>
+            <div class="contact-item">
+                <ion-icon name="mail-outline"></ion-icon>
+                <span class="contact-text" id="footer-email">Email: Loading...</span>
+            </div>
+            <div class="contact-item">
+                <ion-icon name="card-outline"></ion-icon>
+                <span class="contact-text" id="footer-gst">GST: Loading...</span>
             </div>
         </div>
+        <div class="footer-actions">
+            <button class="footer-btn" id="footer-contact-btn">
+                <ion-icon name="call-outline"></ion-icon>
+                Contact Us
+            </button>
+            <button class="footer-btn" id="footer-share-btn">
+                <ion-icon name="share-outline"></ion-icon>
+                Share Gallery
+            </button>
+        </div>
+    </div>
+    <div class="footer-bottom">
+        <div class="footer-copyright"> ©<span id="current-year"></span> Archit Art Gallery. All rights reserved.</div>
+        <div class="footer-powered-by">Developed by <a href="https://endeavourdigital.in/" target="_blank">Endeavour Digital</a></div>
     </div>
 </footer>
 
