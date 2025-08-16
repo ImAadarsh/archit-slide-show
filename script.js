@@ -89,6 +89,96 @@ async function fetchProductDetails(productId, expectedBusinessId) {
 const currentYear = new Date().getFullYear();
 document.getElementById('current-year').textContent = currentYear;
 
+// Update meta tags with business information
+function updateMetaTags(business) {
+    const businessName = business.business_name || 'Art Gallery';
+    const businessDescription = `${businessName} - Premium Art Gallery Collection featuring unique artworks from talented artists. Discover beautiful paintings, sculptures, and contemporary art pieces.`;
+    const currentUrl = window.location.href;
+    const logoUrl = business.logo ? IMAGE_BASE_URL + business.logo : '';
+    
+    // Update basic meta tags
+    document.title = `${businessName} - Art Gallery Collection`;
+    
+    // Update meta description
+    const metaDescription = document.querySelector('meta[name="description"]');
+    if (metaDescription) {
+        metaDescription.setAttribute('content', businessDescription);
+    }
+    
+    // Update keywords
+    const metaKeywords = document.querySelector('meta[name="keywords"]');
+    if (metaKeywords) {
+        metaKeywords.setAttribute('content', `${businessName.toLowerCase()}, art gallery, paintings, artwork, artists, fine art, contemporary art, ${businessName}`);
+    }
+    
+    // Update Open Graph tags
+    const ogTitle = document.querySelector('meta[property="og:title"]');
+    if (ogTitle) {
+        ogTitle.setAttribute('content', `${businessName} - Art Gallery Collection`);
+    }
+    
+    const ogDescription = document.querySelector('meta[property="og:description"]');
+    if (ogDescription) {
+        ogDescription.setAttribute('content', businessDescription);
+    }
+    
+    const ogUrl = document.querySelector('meta[property="og:url"]');
+    if (ogUrl) {
+        ogUrl.setAttribute('content', currentUrl);
+    }
+    
+    const ogImage = document.querySelector('meta[property="og:image"]');
+    if (ogImage && logoUrl) {
+        ogImage.setAttribute('content', logoUrl);
+    }
+    
+    const ogSiteName = document.querySelector('meta[property="og:site_name"]');
+    if (ogSiteName) {
+        ogSiteName.setAttribute('content', businessName);
+    }
+    
+    // Update Twitter Card tags
+    const twitterTitle = document.querySelector('meta[name="twitter:title"]');
+    if (twitterTitle) {
+        twitterTitle.setAttribute('content', `${businessName} - Art Gallery Collection`);
+    }
+    
+    const twitterDescription = document.querySelector('meta[name="twitter:description"]');
+    if (twitterDescription) {
+        twitterDescription.setAttribute('content', businessDescription);
+    }
+    
+    const twitterImage = document.querySelector('meta[name="twitter:image"]');
+    if (twitterImage && logoUrl) {
+        twitterImage.setAttribute('content', logoUrl);
+    }
+    
+    // Update favicon and app icons
+    const favicon = document.querySelector('link[rel="icon"]');
+    if (favicon && logoUrl) {
+        favicon.setAttribute('href', logoUrl);
+    }
+    
+    const appleTouchIcon = document.querySelector('link[rel="apple-touch-icon"]');
+    if (appleTouchIcon && logoUrl) {
+        appleTouchIcon.setAttribute('href', logoUrl);
+    }
+    
+    // Update canonical URL
+    const canonicalLink = document.querySelector('link[rel="canonical"]');
+    if (canonicalLink) {
+        canonicalLink.setAttribute('href', currentUrl);
+    }
+    
+    // Update application name
+    const appName = document.querySelector('meta[name="application-name"]');
+    if (appName) {
+        appName.setAttribute('content', businessName);
+    }
+    
+    console.log('Meta tags updated for:', businessName);
+}
+
 // Update business information
 function updateBusinessInfo(business) {
     console.log('Updating business info:', business);
@@ -122,7 +212,9 @@ function updateBusinessInfo(business) {
     footerPhone.textContent = `Phone: ${business.phone || 'N/A'}`;
     footerEmail.textContent = `Email: ${business.email || 'N/A'}`;
     footerGst.textContent = `GST: ${business.gst || 'N/A'}`;
-    document.title = `${business.business_name} - Art Gallery`;
+    
+    // Update meta tags with business information
+    updateMetaTags(business);
 }
 
 // Create product slide HTML for a single image
