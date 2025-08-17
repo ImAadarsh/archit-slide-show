@@ -2,7 +2,6 @@
 let TrendingSlider;
 let currentBusiness = null;
 let allProducts = [];
-let filteredProducts = [];
 let wishlist = JSON.parse(localStorage.getItem('wishlist')) || [];
 const BASE_URL = 'https://v2.architartgallery.in';
 const IMAGE_BASE_URL = 'https://v2.architartgallery.in/storage/app/';
@@ -186,10 +185,6 @@ function updateBusinessInfo(business) {
     
     const businessLogo = document.getElementById('business-logo');
     const businessName = document.getElementById('business-name');
-    const footerBusinessName = document.getElementById('footer-business-name');
-    const footerPhone = document.getElementById('footer-phone');
-    const footerEmail = document.getElementById('footer-email');
-    const footerGst = document.getElementById('footer-gst');
     
     if (business.logo) {
         const logoUrl = IMAGE_BASE_URL + business.logo;
@@ -208,10 +203,6 @@ function updateBusinessInfo(business) {
     }
     
     businessName.textContent = business.business_name || 'Art Gallery';
-    footerBusinessName.textContent = business.business_name || 'Art Gallery';
-    footerPhone.textContent = `Phone: ${business.phone || 'N/A'}`;
-    footerEmail.textContent = `Email: ${business.email || 'N/A'}`;
-    footerGst.textContent = `GST: ${business.gst || 'N/A'}`;
     
     // Update meta tags with business information
     updateMetaTags(business);
@@ -301,33 +292,8 @@ function initializeSlider() {
   });
 }
 
-// Search and filter functionality
-function setupSearchAndFilter() {
-    const searchInput = document.getElementById('search-input');
-    const clearSearch = document.getElementById('clear-search');
-    const categoryFilter = document.getElementById('category-filter');
-    
-    // Search functionality
-    searchInput.addEventListener('input', function() {
-        const searchTerm = this.value.toLowerCase();
-        if (searchTerm) {
-            clearSearch.style.display = 'block';
-        } else {
-            clearSearch.style.display = 'none';
-        }
-        filterProducts();
-    });
-    
-    clearSearch.addEventListener('click', function() {
-        searchInput.value = '';
-        this.style.display = 'none';
-        filterProducts();
-    });
-    
-    // Category filter
-    categoryFilter.addEventListener('change', filterProducts);
-    
-    // Keyboard navigation
+// Setup keyboard navigation
+function setupKeyboardNavigation() {
     document.addEventListener('keydown', function(e) {
         if (e.key === 'Escape') {
             closeModal();
@@ -342,41 +308,12 @@ function setupSearchAndFilter() {
     });
 }
 
-// Filter products based on search and category
-function filterProducts() {
-    const searchTerm = document.getElementById('search-input').value.toLowerCase();
-    const selectedCategory = document.getElementById('category-filter').value;
-    
-    filteredProducts = allProducts.filter(product => {
-        const matchesSearch = product.name.toLowerCase().includes(searchTerm) ||
-                            product.artist_name.toLowerCase().includes(searchTerm) ||
-                            product.category?.name.toLowerCase().includes(searchTerm);
-        
-        const matchesCategory = !selectedCategory || product.category?.name === selectedCategory;
-        
-        return matchesSearch && matchesCategory;
-    });
-    
-    renderProducts();
-}
-
-// Render filtered products
+// Render products
 function renderProducts() {
     const container = document.getElementById('products-container');
     
-    if (filteredProducts.length === 0) {
-        container.innerHTML = `
-            <div class="no-results">
-                <ion-icon name="search-outline"></ion-icon>
-                <p>No products found</p>
-                <span>Try adjusting your search or filter criteria</span>
-            </div>
-        `;
-        return;
-    }
-    
     const allSlides = [];
-    filteredProducts.forEach(product => {
+    allProducts.forEach(product => {
         const productSlides = createProductSlides(product);
         allSlides.push(...productSlides);
     });
@@ -387,19 +324,6 @@ function renderProducts() {
         TrendingSlider.destroy();
     }
     initializeSlider();
-}
-
-// Populate category filter
-function populateCategoryFilter() {
-    const categoryFilter = document.getElementById('category-filter');
-    const categories = [...new Set(allProducts.map(product => product.category?.name).filter(Boolean))];
-    
-    categories.forEach(category => {
-        const option = document.createElement('option');
-        option.value = category;
-        option.textContent = category;
-        categoryFilter.appendChild(option);
-    });
 }
 
 // Wishlist functionality
@@ -757,24 +681,12 @@ async function initializeGallery() {
 
         // Store products globally
         allProducts = validProducts;
-        filteredProducts = validProducts;
 
-        // Create slides (one slide per image per product)
-        const allSlides = [];
-        validProducts.forEach(product => {
-            const productSlides = createProductSlides(product);
-            allSlides.push(...productSlides);
-        });
-        
-        const slidesHTML = allSlides.join('');
-        container.innerHTML = slidesHTML;
-
-        // Initialize slider
-        initializeSlider();
+        // Render products
+        renderProducts();
         
         // Setup additional features
-        setupSearchAndFilter();
-        populateCategoryFilter();
+        setupKeyboardNavigation();
         updateWishlistUI();
         
         // Setup event listeners
@@ -815,15 +727,8 @@ function setupEventListeners() {
     
     document.getElementById('modal-contact-btn').addEventListener('click', contactBusiness);
     
-    // Footer buttons
     // Set current year in footer
     document.getElementById('current-year').textContent = new Date().getFullYear();
-    
-    // Event listeners for header and footer buttons
-    document.getElementById('header-contact-btn').addEventListener('click', contactBusiness);
-    document.getElementById('header-share-btn').addEventListener('click', shareGallery);
-    document.getElementById('footer-contact-btn').addEventListener('click', contactBusiness);
-    document.getElementById('footer-share-btn').addEventListener('click', shareGallery);
     
     // WhatsApp share button
     document.getElementById('whatsapp-share-btn').addEventListener('click', shareWishlistOnWhatsApp);
