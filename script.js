@@ -3,8 +3,8 @@ let TrendingSlider;
 let currentBusiness = null;
 let allProducts = [];
 let wishlist = JSON.parse(localStorage.getItem('wishlist')) || [];
-const BASE_URL = 'https://v2.architartgallery.in';
-const IMAGE_BASE_URL = 'https://v2.architartgallery.in/storage/app/';
+const BASE_URL = 'https://api.invoicemate.in';
+const IMAGE_BASE_URL = 'https://api.invoicemate.in/storage/app/';
 
 // Get URL parameters
 function getUrlParameters() {
