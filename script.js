@@ -208,22 +208,69 @@ function updateBusinessInfo(business) {
     updateMetaTags(business);
 }
 
+// Placeholder SVG (inline, never fails to load)
+const PLACEHOLDER_IMAGE = 'data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" width="400" height="500" viewBox="0 0 400 500"%3E%3Crect fill="%23f0f0f0" width="400" height="500"/%3E%3Ctext fill="%23999" font-family="sans-serif" font-size="24" dy="250" dx="50" text-anchor="start"%3EImage Not Available%3C/text%3E%3Ccircle cx="200" cy="200" r="60" fill="%23ddd"/%3E%3Cpath d="M200 160 L200 240 M160 200 L240 200" stroke="%23999" stroke-width="8" stroke-linecap="round"/%3E%3C/svg%3E';
+
+// Validate if image URL is accessible
+function validateImageUrl(url) {
+    return new Promise((resolve) => {
+        const img = new Image();
+        img.onload = () => resolve(true);
+        img.onerror = () => resolve(false);
+        img.src = url;
+        
+        // Timeout after 5 seconds
+        setTimeout(() => resolve(false), 5000);
+    });
+}
+
+// Validate product has loadable mockup images
+async function validateProduct(product) {
+    if (!product.images || product.images.length === 0) {
+        console.log(`Product ${product.id} has no images, skipping`);
+        return false;
+    }
+    
+    // Filter to show only mockup images (is_mockup === 1)
+    const mockupImages = product.images.filter(image => image.is_mockup === 1);
+    
+    if (mockupImages.length === 0) {
+        console.log(`Product ${product.id} has no mockup images, skipping`);
+        return false;
+    }
+    
+    // Check if at least the first mockup image loads
+    const firstImageUrl = IMAGE_BASE_URL + mockupImages[0].image;
+    const isValid = await validateImageUrl(firstImageUrl);
+    
+    if (!isValid) {
+        console.log(`Product ${product.id} first mockup image failed to load, skipping`);
+    }
+    
+    return isValid;
+}
+
 // Create product slide HTML for a single image
 function createProductSlideWithImage(product, imageUrl, imageIndex = 0, totalImages = 1) {
     const size = `${product.width} × ${product.height}`;
     const price = product.is_include_gst ? `₹${product.price} (Inc. GST)` : `₹${product.price}`;
     const isInWishlist = wishlist.some(item => item.productId === product.id);
     
-    // Add image counter if there are multiple images
-    const imageCounter = totalImages > 1 ? `<div class="image-counter">${imageIndex + 1}/${totalImages}</div>` : '';
+    // Show image counter if there are multiple mockup images
+    const imageCounter = totalImages > 1 ? `<div class="image-counter">1/${totalImages}</div>` : '';
     
     return `
-        <div class="swiper-slide trending-slide" data-product-id="${product.id}" data-image-index="${imageIndex}">
+        <div class="swiper-slide trending-slide" data-product-id="${product.id}" data-image-index="0">
             <div class="trending-slide-img">
                 <div class="image-overlay"></div>
-                <img src="${imageUrl}" alt="${product.name}" onerror="this.src='images/placeholder.jpg'">
+                <img 
+                    data-src="${imageUrl}" 
+                    alt="${product.name}" 
+                    class="swiper-lazy"
+                    onerror="this.closest('.swiper-slide').style.display='none'">
+                <div class="swiper-lazy-preloader"></div>
                 ${imageCounter}
-                <button class="quick-view-btn" onclick="openProductModal(${product.id}, ${imageIndex})">
+                <button class="quick-view-btn" onclick="openProductModal(${product.id}, 0)">
                     <ion-icon name="eye-outline"></ion-icon>
                 </button>
                 <button class="wishlist-btn-slide ${isInWishlist ? 'active' : ''}" onclick="toggleWishlist(${product.id})">
@@ -243,53 +290,106 @@ function createProductSlideWithImage(product, imageUrl, imageIndex = 0, totalIma
     `;
 }
 
-// Create all slides for a product (one slide per image)
+// Create one slide per product (showing first mockup image)
 function createProductSlides(product) {
     const slides = [];
     
     if (product.images && product.images.length > 0) {
-        // Create a slide for each image
-        product.images.forEach((image, index) => {
-            const imageUrl = IMAGE_BASE_URL + image.image;
-            slides.push(createProductSlideWithImage(product, imageUrl, index, product.images.length));
-        });
-    } else {
-        // Create a slide with placeholder image
-        slides.push(createProductSlideWithImage(product, 'images/placeholder.jpg', 0, 1));
+        // Filter to show only mockup images (is_mockup === 1)
+        const mockupImages = product.images.filter(image => image.is_mockup === 1);
+        
+        if (mockupImages.length > 0) {
+            // Create only ONE slide per product using the first mockup image
+            const imageUrl = IMAGE_BASE_URL + mockupImages[0].image;
+            slides.push(createProductSlideWithImage(product, imageUrl, 0, mockupImages.length));
+        }
+        // Don't create slides for products without mockup images
     }
     
     return slides;
 }
 
-// Initialize slider
+// Initialize slider with simple horizontal scroll
 function initializeSlider() {
+    // Detect if device is mobile
+    const isMobile = window.innerWidth <= 768;
+    
     TrendingSlider = new Swiper('.trending-slider', {
-    effect: 'coverflow',
-    grabCursor: true,
-    centeredSlides: true,
-    loop: true,
-    slidesPerView: 'auto',
-        speed: 3000,
+        // Simple slide effect (no 3D)
+        effect: 'slide',
+        grabCursor: true,
+        centeredSlides: true,
+        loop: true,
+        
+        // Responsive slides per view
+        slidesPerView: isMobile ? 1 : 'auto',
+        spaceBetween: isMobile ? 20 : 30,
+        
+        // Smooth, fast transitions
+        speed: isMobile ? 400 : 600,
+        
+        // Autoplay
         autoplay: {
-            delay: 3000,
+            delay: 3500,
             disableOnInteraction: false,
-            pauseOnMouseEnter: false,
+            pauseOnMouseEnter: true,
         },
-    coverflowEffect: {
-      rotate: 0,
-      stretch: 0,
-            depth: 250,
-      modifier: 2.5,
-    },
-    pagination: {
-      el: '.swiper-pagination',
-      clickable: true,
-    },
-    navigation: {
-      nextEl: '.swiper-button-next',
-      prevEl: '.swiper-button-prev',
+        
+        // Navigation
+        pagination: {
+            el: '.swiper-pagination',
+            clickable: true,
+            dynamicBullets: true,
+        },
+        navigation: {
+            nextEl: '.swiper-button-next',
+            prevEl: '.swiper-button-prev',
+        },
+        
+        // Lazy loading for performance
+        lazy: {
+            loadPrevNext: true,
+            loadPrevNextAmount: 2,
+        },
+        preloadImages: false,
+        watchSlidesProgress: true,
+        
+        // Smooth touch handling
+        touchRatio: 1,
+        threshold: 5,
+        longSwipes: true,
+        longSwipesRatio: 0.5,
+        
+        // Prevent accidental clicks
+        preventClicks: false,
+        preventClicksPropagation: false,
+        
+        // Smooth momentum
+        freeMode: false,
+        freeModeSticky: false,
+        
+        // Better for mobile
+        resistance: true,
+        resistanceRatio: 0.85,
+        
+        // Add slight scaling for visual interest (optional)
+        slideToClickedSlide: true,
+    });
+    
+    // Optimize autoplay for mobile (pause when not visible)
+    if (isMobile && 'IntersectionObserver' in window) {
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    TrendingSlider.autoplay.start();
+                } else {
+                    TrendingSlider.autoplay.stop();
+                }
+            });
+        }, { threshold: 0.5 });
+        
+        observer.observe(document.querySelector('.trending-slider'));
     }
-  });
 }
 
 // Setup keyboard navigation
@@ -308,12 +408,57 @@ function setupKeyboardNavigation() {
     });
 }
 
-// Render products
-function renderProducts() {
+// Handle window resize with debounce for better performance
+let resizeTimer;
+window.addEventListener('resize', function() {
+    clearTimeout(resizeTimer);
+    resizeTimer = setTimeout(function() {
+        if (TrendingSlider) {
+            TrendingSlider.update();
+        }
+    }, 250);
+});
+
+// Render products (only those with valid mockup images)
+async function renderProducts() {
     const container = document.getElementById('products-container');
     
+    // Show loading state
+    container.innerHTML = `
+        <div class="loading-spinner">
+            <div class="spinner"></div>
+            <p>Validating images...</p>
+        </div>
+    `;
+    
+    // Validate all products and filter out those with broken images
+    const validationResults = await Promise.all(
+        allProducts.map(async (product) => ({
+            product,
+            isValid: await validateProduct(product)
+        }))
+    );
+    
+    // Keep only products with valid images
+    const validProducts = validationResults
+        .filter(result => result.isValid)
+        .map(result => result.product);
+    
+    console.log(`Total products: ${allProducts.length}, Valid products: ${validProducts.length}`);
+    
+    if (validProducts.length === 0) {
+        container.innerHTML = `
+            <div class="error-message">
+                <ion-icon name="images-outline"></ion-icon>
+                <p>No products with valid images available at the moment.</p>
+            </div>
+        `;
+        return;
+    }
+    
+    // Create slides only for valid products
     const allSlides = [];
-    allProducts.forEach(product => {
+    validProducts.forEach(product => {
         const productSlides = createProductSlides(product);
         allSlides.push(...productSlides);
     });
@@ -375,7 +520,9 @@ function updateWishlistUI() {
         
         wishlistItems.innerHTML = wishlist.map(item => `
             <div class="wishlist-item">
-                <img src="${item.image ? IMAGE_BASE_URL + item.image : 'images/placeholder.jpg'}" alt="${item.name}">
+                <img src="${item.image ? IMAGE_BASE_URL + item.image : PLACEHOLDER_IMAGE}" 
+                     alt="${item.name}"
+                     onerror="this.closest('.wishlist-item').style.opacity='0.5'">
                 <div class="wishlist-item-info">
                     <h4>${item.name}</h4>
                     <p>₹${item.price}</p>
@@ -428,20 +575,37 @@ function openProductModal(productId, imageIndex = 0) {
         ${isInWishlist ? 'Remove from Wishlist' : 'Add to Wishlist'}
     `;
     
-    // Set images
+    // Set images - filter to show only mockup images (is_mockup === 1)
     if (product.images && product.images.length > 0) {
-        modalMainImage.src = IMAGE_BASE_URL + product.images[imageIndex].image;
+        const mockupImages = product.images.filter(image => image.is_mockup === 1);
         
-        // Create thumbnails
-        thumbnailGallery.innerHTML = product.images.map((image, index) => `
-            <img src="${IMAGE_BASE_URL + image.image}" 
-                 alt="Thumbnail ${index + 1}" 
-                 class="thumbnail ${index === imageIndex ? 'active' : ''}"
-                 onclick="changeModalImage('${IMAGE_BASE_URL + image.image}', ${index})">
-        `).join('');
+        if (mockupImages.length > 0) {
+            // Ensure imageIndex is within bounds
+            const validImageIndex = Math.min(imageIndex, mockupImages.length - 1);
+            modalMainImage.src = IMAGE_BASE_URL + mockupImages[validImageIndex].image;
+            
+            // If main image fails to load, close modal
+            modalMainImage.onerror = function() { 
+                console.error('Main image failed to load, closing modal');
+                closeModal();
+                alert('Unable to load product images. Please try again later.');
+            };
+            
+            // Create thumbnails for mockup images only
+            thumbnailGallery.innerHTML = mockupImages.map((image, index) => `
+                <img src="${IMAGE_BASE_URL + image.image}" 
+                     alt="Thumbnail ${index + 1}" 
+                     class="thumbnail ${index === validImageIndex ? 'active' : ''}"
+                     onerror="this.style.display='none'"
+                     onclick="changeModalImage('${IMAGE_BASE_URL + image.image}', ${index})">
+            `).join('');
+        } else {
+            closeModal();
+            alert('This product has no images available.');
+        }
     } else {
-        modalMainImage.src = 'images/placeholder.jpg';
-        thumbnailGallery.innerHTML = '';
+        closeModal();
+        alert('This product has no images available.');
     }
     
     modal.style.display = 'block';
@@ -492,13 +656,16 @@ function shareProduct(productId) {
     shareText += `Size: ${product.width} × ${product.height}\n`;
     shareText += `Price: ₹${product.price}\n`;
     
-    // Add image links if available
+    // Add mockup image links if available
     if (product.images && product.images.length > 0) {
-        shareText += `Images:\n`;
-        product.images.forEach((image, index) => {
-            const imageUrl = IMAGE_BASE_URL + image.image;
-            shareText += `${index + 1}. ${imageUrl}\n`;
-        });
+        const mockupImages = product.images.filter(image => image.is_mockup === 1);
+        if (mockupImages.length > 0) {
+            shareText += `Images:\n`;
+            mockupImages.forEach((image, index) => {
+                const imageUrl = IMAGE_BASE_URL + image.image;
+                shareText += `${index + 1}. ${imageUrl}\n`;
+            });
+        }
     }
     
     shareText += `\nGallery URL: ${window.location.href}`;
@@ -570,13 +737,16 @@ function shareWishlistOnWhatsApp() {
             message += `   Size: ${product.width} × ${product.height}\n`;
             message += `   Price: ₹${item.price}\n`;
             
-            // Add image links if available
+            // Add mockup image links if available
             if (product.images && product.images.length > 0) {
-                message += `   Images:\n`;
-                product.images.forEach((image, imgIndex) => {
-                    const imageUrl = IMAGE_BASE_URL + image.image;
-                    message += `   ${imgIndex + 1}. ${imageUrl}\n`;
-                });
+                const mockupImages = product.images.filter(image => image.is_mockup === 1);
+                if (mockupImages.length > 0) {
+                    message += `   Images:\n`;
+                    mockupImages.forEach((image, imgIndex) => {
+                        const imageUrl = IMAGE_BASE_URL + image.image;
+                        message += `   ${imgIndex + 1}. ${imageUrl}\n`;
+                    });
+                }
             }
             message += `\n`;
         } else {
