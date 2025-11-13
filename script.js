@@ -3,6 +3,7 @@ let TrendingSlider;
 let currentBusiness = null;
 let allProducts = [];
 let wishlist = JSON.parse(localStorage.getItem('wishlist')) || [];
+let currentSliderIsMobile = window.innerWidth <= 768;
 const BASE_URL = 'https://api.invoicemate.in';
 const IMAGE_BASE_URL = 'https://api.invoicemate.in/storage/app/';
 
@@ -323,17 +324,13 @@ function initializeSlider() {
         
         // Responsive slides per view
         slidesPerView: isMobile ? 1 : 'auto',
-        spaceBetween: isMobile ? 20 : 30,
+        spaceBetween: isMobile ? 16 : 30,
         
         // Smooth, fast transitions
         speed: isMobile ? 400 : 600,
         
         // Autoplay
-        autoplay: {
-            delay: 3500,
-            disableOnInteraction: false,
-            pauseOnMouseEnter: true,
-        },
+        autoplay: false,
         
         // Navigation
         pagination: {
@@ -376,8 +373,10 @@ function initializeSlider() {
         slideToClickedSlide: true,
     });
     
+    currentSliderIsMobile = isMobile;
+    
     // Optimize autoplay for mobile (pause when not visible)
-    if (isMobile && 'IntersectionObserver' in window) {
+    if (isMobile && TrendingSlider.params.autoplay && 'IntersectionObserver' in window) {
         const observer = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
                 if (entry.isIntersecting) {
@@ -414,7 +413,13 @@ window.addEventListener('resize', function() {
     clearTimeout(resizeTimer);
     resizeTimer = setTimeout(function() {
         if (TrendingSlider) {
-            TrendingSlider.update();
+            const isMobile = window.innerWidth <= 768;
+            if (isMobile !== currentSliderIsMobile) {
+                TrendingSlider.destroy(true, true);
+                initializeSlider();
+            } else {
+                TrendingSlider.update();
+            }
         }
     }, 250);
 });
@@ -466,7 +471,7 @@ async function renderProducts() {
     container.innerHTML = allSlides.join('');
     
     if (TrendingSlider) {
-        TrendingSlider.destroy();
+        TrendingSlider.destroy(true, true);
     }
     initializeSlider();
 }
