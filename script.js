@@ -324,7 +324,7 @@ function initializeSlider() {
         
         // Responsive slides per view
         slidesPerView: isMobile ? 1 : 'auto',
-        spaceBetween: isMobile ? 16 : 30,
+        spaceBetween: isMobile ? 0 : 30,
         
         // Smooth, fast transitions
         speed: isMobile ? 400 : 600,
@@ -563,6 +563,8 @@ function openProductModal(productId, imageIndex = 0) {
     const modalGstInfo = document.getElementById('modal-gst-info');
     const modalWishlistBtn = document.getElementById('modal-wishlist-btn');
     const thumbnailGallery = document.getElementById('thumbnail-gallery');
+
+    modal.dataset.productId = productId;
     
     // Set product details
     modalProductName.textContent = product.name;
@@ -904,6 +906,20 @@ function setupEventListeners() {
     
     // Set current year in footer
     document.getElementById('current-year').textContent = new Date().getFullYear();
+    
+    // Slide tap to open modal (excluding wishlist button)
+    document.getElementById('products-container').addEventListener('click', function(event) {
+        if (event.target.closest('.wishlist-btn-slide') || event.target.closest('.quick-view-btn')) {
+            return;
+        }
+        const slide = event.target.closest('.trending-slide');
+        if (slide) {
+            const productId = parseInt(slide.dataset.productId);
+            if (productId) {
+                openProductModal(productId);
+            }
+        }
+    });
     
     // WhatsApp share button
     document.getElementById('whatsapp-share-btn').addEventListener('click', shareWishlistOnWhatsApp);
