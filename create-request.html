@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Product Images for Vendor</title>
+    <link rel="stylesheet" href="https://unpkg.com/swiper@8/swiper-bundle.min.css" />
+    <link rel="stylesheet" href="request-style.css" />
+</head>
+
+<body>
+    <header class="header">
+        <div id="business-info" class="business-info">
+            <h2 id="business-name" class="business-name"></h2>
+            <p>Original Product Collection</p>
+        </div>
+    </header>
+
+    <section id="gallery">
+        <div class="container">
+            <div class="swiper trending-slider">
+                <div class="swiper-wrapper" id="products-container">
+                    <div class="loading-spinner">
+                        <div class="spinner"></div>
+                        <p>Loading images...</p>
+                    </div>
+                </div>
+                <!-- Slider Controls -->
+                <div class="trending-slider-control">
+                    <div class="swiper-button-prev slider-arrow">
+                        <ion-icon name="arrow-back-outline"></ion-icon>
+                    </div>
+                    <div class="swiper-pagination"></div>
+                    <div class="swiper-button-next slider-arrow">
+                        <ion-icon name="arrow-forward-outline"></ion-icon>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer class="footer">
+        <p>© <span id="current-year"></span> Product Portfolio Gallery</p>
+    </footer>
+
+    <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
+    <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
+    <script src="https://unpkg.com/swiper@8/swiper-bundle.min.js"></script>
+    <script src="request-script.js" defer></script>
+</body>
+
+</html>
